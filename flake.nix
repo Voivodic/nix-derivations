@@ -15,6 +15,7 @@
             buildInputs = [
                 (import cosmo/pyexshalos.nix { pkgs = pkgs; })
                 (import nn/e3nn_jax.nix { pkgs = pkgs; })
+                (import nn/diffrax.nix { pkgs = pkgs; })
             ];
         };
     };
