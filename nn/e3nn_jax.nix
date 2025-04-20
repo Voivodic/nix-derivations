@@ -15,14 +15,13 @@ in
             owner = "e3nn"; 
             repo = "e3nn-jax"; 
             rev = "main"; 
-            sha256 = ""; 
+            sha256 = "sha256-Z4Chry8KUNK+pr2yWtv9aUwj66Ofmrq8QT2B8BgEUj8="; 
         }; 
 
         propagatedBuildInputs = [ 
-            pythonPackages.numpy
+            python
             pythonPackages.jax
             pythonPackages.jaxlib
-            pythonPackages.setuptools
             pythonPackages.setuptools_scm
             pythonPackages.attrs
             pythonPackages.sympy
