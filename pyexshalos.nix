@@ -14,10 +14,10 @@ let
             owner = "chr1shr"; 
             repo = "voro"; 
             rev = "master"; 
-            sha256 = ""; 
+            sha256 = "sha256-F6KersvAa/LKEFjfolGWPjxlsmfFh5F/cV2CrmO8ntA="; 
         }; 
 
-        buildInputs = [
+        nativeBuildInputs = [
             pkgs.gcc
         ]; 
 
@@ -35,7 +35,6 @@ let
         }; 
     }; 
 in 
-{
     # Derivation for pyexshalos 
     pkgs.python312Packages.buildPythonPackage { 
         pname = "pyexshalos"; 
@@ -45,11 +44,14 @@ in
             owner = "Voivodic"; 
             repo = "ExSHalos"; 
             rev = "main"; 
-            sha256 = ""; 
+            sha256 = "sha256-F7khUGrD7sdlz3YIABxf4wrOuL8eww0NCIdmNRF4+mY="; 
         }; 
 
+        nativeBuildInputs = [
+            pkgs.gcc
+        ];
+
         buildInputs = [ 
-            pkgs.gcc 
             pkgs.fftw 
             pkgs.fftwFloat 
             pkgs.gsl 
@@ -67,5 +69,4 @@ in
             description = "Python interface to ExSHalos"; 
             homepage = "https://voivodic.github.io/ExSHalos/"; 
         }; 
-    };
-};
+    }
