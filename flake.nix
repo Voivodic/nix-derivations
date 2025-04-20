@@ -13,7 +13,8 @@
     {
         devShells.${system}.default = pkgs.mkShell {
             buildInputs = [
-                (import cosmo/pyexshalos.nix {pkgs = pkgs;})
+                (import cosmo/pyexshalos.nix { pkgs = pkgs; })
+                (import nn/e3nn_jax.nix { pkgs = pkgs; })
             ];
         };
     };
