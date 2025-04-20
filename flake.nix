@@ -12,8 +12,8 @@
     in
     {
         devShells.${system}.default = pkgs.mkShell {
-            packages = [
-                (import ./pyexshalos.nix { })
+            buildInputs = [
+                pkgs.python312 
             ];
         };
     };
