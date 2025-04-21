@@ -36,14 +36,14 @@ let
     }; 
 in 
     # Derivation for pyexshalos 
-    pkgs.python312Packages.buildPythonPackage { 
+    pkgs.python312Packages.buildPythonPackage rec { 
         pname = "pyexshalos"; 
         version = "0.1.0"; 
 
         src = pkgs.fetchFromGitHub{ 
             owner = "Voivodic"; 
             repo = "ExSHalos"; 
-            rev = "main"; 
+            tag = "v${version}";
             sha256 = "sha256-F7khUGrD7sdlz3YIABxf4wrOuL8eww0NCIdmNRF4+mY="; 
         }; 
 
