@@ -8,20 +8,17 @@ in
     # Derivation for diffrax 
     pkgs.python312Packages.buildPythonPackage { 
         pname = "diffrax"; 
-        version = "0.7"; 
+        version = "0.5.0"; 
         format = "pyproject";
 
-        src = pkgs.fetchFromGitHub{ 
-            owner = "patrick-kidger"; 
-            repo = "diffrax"; 
-            rev = "main"; 
-            sha256 = ""; 
+        src = pkgs.fetchPypi{ 
+            pname = "diffrax";
+            version = "0.5.0";
+            sha256 = "sha256-LmZwG1RXmIGK80qRMoh7NUyTtbR+EzyZhuI6fPYAqTc";
         }; 
 
         propagatedBuildInputs = [ 
             python
-            pythonPackages.jax
-            pythonPackages.jaxlib
             pythonPackages.equinox
             pythonPackages.lineax
             pythonPackages.optimistix

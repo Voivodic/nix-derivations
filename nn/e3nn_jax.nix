@@ -6,7 +6,7 @@ let
     pythonPackages = pkgs.python312Packages; 
 in 
     # Derivation for e3nn_jax 
-    pkgs.python312Packages.buildPythonPackage { 
+    pkgs.python312Packages.buildPythonPackage rec { 
         pname = "e3nn-jax"; 
         version = "0.20.7"; 
         format = "pyproject";
@@ -14,7 +14,7 @@ in
         src = pkgs.fetchFromGitHub{ 
             owner = "e3nn"; 
             repo = "e3nn-jax"; 
-            rev = "main"; 
+            tag = "${version}"; 
             sha256 = "sha256-Z4Chry8KUNK+pr2yWtv9aUwj66Ofmrq8QT2B8BgEUj8="; 
         }; 
 
