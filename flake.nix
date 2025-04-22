@@ -14,9 +14,9 @@
         unstable = import nixpkgs-unstable { system = "${system}"; };
 
         # Call the packages in the Repo
-        pyexshalos = unstable.python313Packages.callPackage ./pkgs/cosmo/pyexshalos.nix {};
-        e3nn-jax = unstable.python313Packages.callPackage ./pkgs/nn/e3nn_jax.nix {};
-        diffrax = unstable.python313Packages.callPackage ./pkgs/nn/diffrax.nix {};
+        pyexshalos = unstable.python313Packages.callPackage ./pkgs/cosmo/pyexshalos {};
+        e3nn-jax = unstable.python313Packages.callPackage ./pkgs/nn/e3nn_jax {};
+        diffrax = unstable.python313Packages.callPackage ./pkgs/nn/diffrax {};
     in { 
         devShells.${system} = {
             pyexshalos = stable.mkShell {
