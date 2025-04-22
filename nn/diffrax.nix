@@ -1,32 +1,54 @@
 # Derivation for the installation of diffrax 
-{ pkgs }: 
-let 
-    # Define the python version 
-    python = pkgs.python312; 
-    pythonPackages = pkgs.python312Packages; 
-in 
-    # Derivation for diffrax 
-    pkgs.python312Packages.buildPythonPackage { 
-        pname = "diffrax"; 
-        version = "0.5.0"; 
-        format = "pyproject";
+{ 
+    # For building the derivation
+    stdenv,
+    lib,
+    buildPythonPackage,
+    fetchFromGitHub,
 
-        src = pkgs.fetchPypi{ 
-            pname = "diffrax";
-            version = "0.5.0";
-            sha256 = "sha256-LmZwG1RXmIGK80qRMoh7NUyTtbR+EzyZhuI6fPYAqTc";
-        }; 
+    # For building the libraries
+    hatchling,
 
-        propagatedBuildInputs = [ 
-            python
-            pythonPackages.equinox
-            pythonPackages.lineax
-            pythonPackages.optimistix
-            pythonPackages.hatchling
-        ]; 
+    # Python dependencies
+    jax,
+    jaxtyping,
+    equinox,
+    wadler-lindig,
+    lineax,
+    optimistix,
+    typing-extensions
+}: 
+# Derivation for diffrax 
+buildPythonPackage rec { 
+    pname = "diffrax"; 
+    version = "0.7.0"; 
+    format = "pyproject";
 
-        meta = { 
-            description = "Python library solving ODE using jax"; 
-            homepage = "https://docs.kidger.site/diffrax/"; 
-        }; 
-    }
+    src = fetchFromGitHub{ 
+        owner = "patrick-kidger";
+        repo = "diffrax";
+        tag = "v${version}";
+        sha256 = "sha256-TBXcwNFYU1C9Pa0KwJeqfVixnJNFdg77HRXqZlSEQjY=";
+    }; 
+
+    buildInputs = [
+        hatchling
+    ];
+
+    propagatedBuildInputs = [ 
+        jax 
+        jaxtyping
+        equinox
+        wadler-lindig
+        lineax
+        optimistix 
+        typing-extensions
+    ]; 
+
+    pythonImportsCheck = [ "diffrax" ];
+
+    meta = { 
+        description = "Python library for solving ODE using jax"; 
+        homepage = "https://docs.kidger.site/diffrax/"; 
+    }; 
+}

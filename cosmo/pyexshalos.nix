@@ -1,16 +1,31 @@
 # Derivation for the installation of pyExSHalos 
-{ pkgs }: 
-let 
-    # Define the python version 
-    python = pkgs.python312; 
-    pythonPackages = pkgs.python312Packages; 
+{ 
+    # For building the derivation
+    stdenv,
+    lib,
+    buildPythonPackage,
+    fetchFromGitHub,
 
+    # For building the libraries
+    gcc,
+    setuptools,
+
+    # Dependencies
+    fftw,
+    fftwFloat,
+    gsl,
+
+    # Python dependencies
+    numpy,
+    scipy,
+}: 
+let 
     # Derivation for voro++ (used in ExSHalos) 
-    voroPP = pkgs.stdenv.mkDerivation { 
+    voroPP = stdenv.mkDerivation { 
         pname = "voro++"; 
         version = "0.5"; 
 
-        src = pkgs.fetchFromGitHub{ 
+        src = fetchFromGitHub{ 
             owner = "chr1shr"; 
             repo = "voro"; 
             rev = "master"; 
@@ -18,7 +33,7 @@ let
         }; 
 
         nativeBuildInputs = [
-            pkgs.gcc
+            gcc
         ]; 
 
         buildPhase = '' 
@@ -35,38 +50,40 @@ let
         }; 
     }; 
 in 
-    # Derivation for pyexshalos 
-    pkgs.python312Packages.buildPythonPackage rec { 
-        pname = "pyexshalos"; 
-        version = "0.1.0"; 
+# Derivation for pyexshalos 
+buildPythonPackage rec { 
+    pname = "pyexshalos"; 
+    version = "0.1.0"; 
 
-        src = pkgs.fetchFromGitHub{ 
-            owner = "Voivodic"; 
-            repo = "ExSHalos"; 
-            tag = "v${version}";
-            sha256 = "sha256-F7khUGrD7sdlz3YIABxf4wrOuL8eww0NCIdmNRF4+mY="; 
-        }; 
+    src = fetchFromGitHub{ 
+        owner = "Voivodic"; 
+        repo = "ExSHalos"; 
+        tag = "v${version}";
+        sha256 = "sha256-F7khUGrD7sdlz3YIABxf4wrOuL8eww0NCIdmNRF4+mY="; 
+    }; 
 
-        nativeBuildInputs = [
-            pkgs.gcc
-        ];
+    nativeBuildInputs = [
+        gcc
+    ];
 
-        buildInputs = [ 
-            pkgs.fftw 
-            pkgs.fftwFloat 
-            pkgs.gsl 
-            voroPP 
-        ]; 
+    buildInputs = [ 
+        fftw 
+        fftwFloat 
+        gsl 
+        voroPP 
+        setuptools
+    ]; 
 
-        propagatedBuildInputs = [ 
-            python 
-            pythonPackages.setuptools 
-            pythonPackages.numpy 
-            pythonPackages.scipy 
-        ]; 
+    propagatedBuildInputs = [ 
+        numpy 
+        scipy 
+    ]; 
 
-        meta = { 
-            description = "Python interface to ExSHalos"; 
-            homepage = "https://voivodic.github.io/ExSHalos/"; 
-        }; 
-    }
+    pythonImportsCheck = [ "pyexshalos" ];
+
+    meta = { 
+        description = "Python interface to ExSHalos"; 
+        homepage = "https://voivodic.github.io/ExSHalos/"; 
+        license = lib.licenses.mit;
+    }; 
+}
