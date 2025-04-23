@@ -1,37 +1,33 @@
 {
-    description = "Test of the derivations in this folder";
+    description = "Test of the derivations taken directly from github";
 
     inputs = {
-        nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+        nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
         nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+        gitpkgs.url = "github:Voivodic/nix-derivations";
+        gitpkgs.inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
-    outputs = { self, nixpkgs, nixpkgs-unstable, ... }: 
+    outputs = { self, nixpkgs-stable, gitpkgs, ... }: 
     let
         # Define the system
         system = "x86_64-linux";
-        stable = import nixpkgs { system = "${system}"; };
-        unstable = import nixpkgs-unstable { system = "${system}"; };
-
-        # Call the packages in the Repo
-        pyexshalos = unstable.python313Packages.callPackage ./pkgs/cosmo/pyexshalos {};
-        e3nn-jax = unstable.python313Packages.callPackage ./pkgs/nn/e3nn_jax {};
-        diffrax = unstable.python313Packages.callPackage ./pkgs/nn/diffrax {};
+        stable = import nixpkgs-stable { system = "${system}"; };
     in { 
         devShells.${system} = {
             pyexshalos = stable.mkShell {
                 buildInputs = [
-                    pyexshalos
+                    gitpkgs.packages.${system}.pyexshalos
                 ];
             };
             e3nn-jax = stable.mkShell {
                 buildInputs = [
-                    e3nn-jax
+                    gitpkgs.packages.${system}.e3nn-jax
                 ];
             };
             diffrax = stable.mkShell {
                 buildInputs = [
-                    diffrax 
+                    gitpkgs.packages.${system}.diffrax
                 ];
             };
         };

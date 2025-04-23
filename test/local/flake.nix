@@ -1,16 +1,16 @@
 {
-    description = "Test the derivations locally defined";
+    description = "Test the derivations taken locally";
 
     inputs = {
-        nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+        nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
         nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     };
 
-    outputs = { self, nixpkgs, nixpkgs-unstable, ... }: 
+    outputs = { self, nixpkgs-stable, nixpkgs-unstable, ... }: 
     let
         # Define the system
         system = "x86_64-linux";
-        stable = import nixpkgs { system = "${system}"; };
+        stable = import nixpkgs-stable { system = "${system}"; };
         unstable = import nixpkgs-unstable { system = "${system}"; };
 
         # Call the packages in the Repo
