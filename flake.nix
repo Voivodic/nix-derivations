@@ -14,11 +14,11 @@
             # Package definitions
             packages = {
                 # Cosmo
-                pyexshalos = pkgs.python3Packages.callPackage ./pkgs/cosmo/pyexshalos {};
+                pyexshalos = pkgs.python313Packages.callPackage ./pkgs/cosmo/pyexshalos {};
 
                 # NN
-                e3nn-jax = pkgs.python3Packages.callPackage ./pkgs/nn/e3nn-jax {};
-                diffrax = pkgs.python3Packages.callPackage ./pkgs/nn/diffrax {};
+                e3nn-jax = pkgs.python313Packages.callPackage ./pkgs/nn/e3nn-jax {};
+                diffrax = pkgs.python313Packages.callPackage ./pkgs/nn/diffrax {};
             };
         in {
             packages = packages;
