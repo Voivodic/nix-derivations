@@ -15,6 +15,7 @@
             packages = {
                 # Cosmo
                 pyexshalos = pkgs.python3Packages.callPackage ./pkgs/cosmo/pyexshalos {};
+                class-pt = pkgs.python3Packages.callPackage ./pkgs/cosmo/class-pt {};
 
                 # NN
                 e3nn-jax = pkgs.python3Packages.callPackage ./pkgs/nn/e3nn-jax {};
