@@ -4,44 +4,67 @@
     stdenv,
     lib,
     fetchFromGitHub,
+    buildPythonPackage,
 
     # For building the libraries
     gcc,
-    make,
+    gnumake,
 
     # Dependencies
     openblas,
+
+    # Python dependencies
+    numpy,
+    cython,
+    distutils,
 }: 
-let 
-    
-in 
 # Derivation for pyexshalos 
-stdenv.mkDerivation rec { 
+buildPythonPackage rec { 
     pname = "class-pt"; 
     version = "2.0"; 
 
     src = fetchFromGitHub{ 
         owner = "Michalychforever"; 
         repo = "CLASS-PT"; 
-        tag = "v${version}";
-        sha256 = ""; 
+        rev = "master";
+        sha256 = "sha256-AlgQ1xkZYXu5FCzNJNOJJQfhpVC9I+su+P/bG6LLIl4="; 
     }; 
 
     nativeBuildInputs = [
         gcc
-        make
+        gnumake
     ];
 
     buildInputs = [ 
-        openblas 
+        openblas
+        distutils
     ]; 
 
+    propagatedBuildInputs = [
+        numpy
+        cython
+    ];
+
+    configurePhase = ''
+        sed -i '54c\OPENBLAS = ${openblas}/lib/libopenblas.so' Makefile
+        sed -i '144c\all: class libclass.a' Makefile
+        sed -i '189,197d' Makefile
+        sed -i '39c\include_dirs=[nm.get_include(), "../include", "${openblas}/include"],' python/setup.py
+        sed -i '42c\extra_link_args=["${openblas}/lib/libopenblas.so", "-lgomp"],' python/setup.py
+        export HOME=$(mktemp -d)
+
+        sed -i '23c\ctypedef np.int32_t DTYPE_i' python/classy.pyx
+    '';
+
     buildPhase = ''
-        make
+        make clean
+        make OPENBLAS="${openblas}/lib/libopenblas.so"
     '';
 
     installPhase = ''
-        make install
+        cd python
+        mkdir -p dist
+        python setup.py install --prefix=$out 
     '';
 
     pythonImportsCheck = [ "classy" ];
