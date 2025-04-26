@@ -8,6 +8,7 @@
 
     # Python dependencies
     jax,
+    jaxlib,
     setuptools_scm,
     attrs,
     sympy,
@@ -27,6 +28,7 @@ buildPythonPackage rec {
 
     buildInputs = [
         setuptools_scm
+        jaxlib
     ];
 
     propagatedBuildInputs = [ 

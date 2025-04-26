@@ -11,6 +11,7 @@
 
     # Python dependencies
     jax,
+    jaxlib,
     jaxtyping,
     equinox,
     wadler-lindig,
@@ -33,6 +34,7 @@ buildPythonPackage rec {
 
     buildInputs = [
         hatchling
+        jaxlib
     ];
 
     propagatedBuildInputs = [ 
