@@ -15,6 +15,7 @@
 
         # Call the packages in the Repo
         pyexshalos = unstable.python313Packages.callPackage ./../../pkgs/cosmo/pyexshalos {};
+        class-pt = unstable.python313Packages.callPackage ./../../pkgs/cosmo/class-pt {};
         e3nn-jax = unstable.python313Packages.callPackage ./../../pkgs/nn/e3nn_jax {};
         diffrax = unstable.python313Packages.callPackage ./../../pkgs/nn/diffrax {};
     in { 
@@ -22,6 +23,11 @@
             pyexshalos = stable.mkShell {
                 buildInputs = [
                     pyexshalos
+                ];
+            };
+            class-pt = stable.mkShell {
+                buildInputs = [
+                    class-pt 
                 ];
             };
             e3nn-jax = stable.mkShell {

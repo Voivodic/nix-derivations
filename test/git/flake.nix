@@ -20,6 +20,11 @@
                     gitpkgs.packages.${system}.pyexshalos
                 ];
             };
+            class-pt = stable.mkShell {
+                buildInputs = [
+                    gitpkgs.packages.${system}.class-pt
+                ];
+            };
             e3nn-jax = stable.mkShell {
                 buildInputs = [
                     gitpkgs.packages.${system}.e3nn-jax
