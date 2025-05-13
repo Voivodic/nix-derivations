@@ -11,7 +11,8 @@
 
     # Python dependencies
     jax,
-    jaxlib,
+    jax-cuda12-plugin,
+    jax-cuda12-pjrt,
     jaxtyping,
     equinox,
     wadler-lindig,
@@ -34,7 +35,8 @@ buildPythonPackage rec {
 
     buildInputs = [
         hatchling
-        jaxlib
+        jax-cuda12-plugin
+        jax-cuda12-pjrt
     ];
 
     propagatedBuildInputs = [ 
