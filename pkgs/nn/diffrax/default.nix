@@ -1,8 +1,6 @@
 # Derivation for the installation of diffrax 
 { 
     # For building the derivation
-    stdenv,
-    lib,
     buildPythonPackage,
     fetchFromGitHub,
 
