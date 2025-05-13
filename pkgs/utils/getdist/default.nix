@@ -21,7 +21,7 @@ buildPythonPackage rec {
         owner = "cmbant"; 
         repo = "getdist"; 
         tag = "${version}"; 
-        sha256 = ""; 
+        sha256 = "sha256-//dmhE4jI3EKn6YAqhxIbr0wflX8pOxuHs+i817IAxA="; 
     }; 
 
     buildInputs = [
