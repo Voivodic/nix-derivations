@@ -25,6 +25,11 @@
                     gitpkgs.packages.${system}.class-pt
                 ];
             };
+            getdist = stable.mkShell {
+                buildInputs = [
+                    gitpkgs.packages.${system}.getdist
+                ];
+            };
             e3nn-jax = stable.mkShell {
                 buildInputs = [
                     gitpkgs.packages.${system}.e3nn-jax
