@@ -20,6 +20,9 @@
                 # NN
                 e3nn-jax = pkgs.python3Packages.callPackage ./pkgs/nn/e3nn-jax {};
                 diffrax = pkgs.python3Packages.callPackage ./pkgs/nn/diffrax {};
+
+                # Utils
+                getdist = pkgs.python3Packages.callPackage ./pkgs/utils/getdist {};
             };
         in {
             packages = packages;
