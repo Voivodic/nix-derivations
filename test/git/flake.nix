@@ -17,27 +17,27 @@
         devShells.${system} = {
             pyexshalos = stable.mkShell {
                 buildInputs = [
-                    gitpkgs.packages.${system}.pyexshalos
+                    gitpkgs.packages.${system}.python313.pyexshalos
                 ];
             };
             class-pt = stable.mkShell {
                 buildInputs = [
-                    gitpkgs.packages.${system}.class-pt
+                    gitpkgs.packages.${system}.python313.class-pt
                 ];
             };
             getdist = stable.mkShell {
                 buildInputs = [
-                    gitpkgs.packages.${system}.getdist
+                    gitpkgs.packages.${system}.python313.getdist
                 ];
             };
             e3nn-jax = stable.mkShell {
                 buildInputs = [
-                    gitpkgs.packages.${system}.e3nn-jax
+                    gitpkgs.packages.${system}.python313.e3nn-jax
                 ];
             };
             diffrax = stable.mkShell {
                 buildInputs = [
-                    gitpkgs.packages.${system}.diffrax
+                    gitpkgs.packages.${system}.python313.diffrax
                 ];
             };
         };
