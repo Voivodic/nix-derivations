@@ -1,14 +1,14 @@
 # Derivation for the installation of e3nn_jax
 { 
     # For building the derivation
-    stdenv,
     lib,
     buildPythonPackage,
     fetchFromGitHub,
 
     # Python dependencies
     jax,
-    jaxlib,
+    jax-cuda12-plugin,
+    jax-cuda12-pjrt,
     setuptools_scm,
     attrs,
     sympy,
@@ -28,7 +28,8 @@ buildPythonPackage rec {
 
     buildInputs = [
         setuptools_scm
-        jaxlib
+        jax-cuda12-plugin
+        jax-cuda12-pjrt
     ];
 
     propagatedBuildInputs = [ 

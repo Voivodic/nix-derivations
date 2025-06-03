@@ -1,6 +1,7 @@
 # Derivation for the installation of diffrax 
 { 
     # For building the derivation
+    lib,
     buildPythonPackage,
     fetchFromGitHub,
 
@@ -52,5 +53,6 @@ buildPythonPackage rec {
     meta = { 
         description = "Python library for solving ODE using jax"; 
         homepage = "https://docs.kidger.site/diffrax/"; 
+        license = lib.licenses.mit;
     }; 
 }
