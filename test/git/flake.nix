@@ -2,42 +2,44 @@
     description = "Test of the derivations taken directly from github";
 
     inputs = {
-        nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
-        nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+        nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
         gitpkgs.url = "github:Voivodic/nix-derivations";
-        gitpkgs.inputs.nixpkgs.follows = "nixpkgs-unstable";
+        gitpkgs.inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    outputs = { self, nixpkgs-stable, gitpkgs, ... }: 
+    outputs = { self, nixpkgs, gitpkgs, ... }: 
     let
         # Define the system
         system = "x86_64-linux";
-        stable = import nixpkgs-stable { system = "${system}"; };
+        pkgs = import nixpkgs { 
+            system = "${system}";
+        };
+        gpkgs = gitpkgs.packages.${system};
     in { 
         devShells.${system} = {
-            pyexshalos = stable.mkShell {
+            pyexshalos = pkgs.mkShell {
                 buildInputs = [
-                    gitpkgs.packages.${system}.python313.pyexshalos
+                    gpkgs.python313.pyexshalos
                 ];
             };
-            class-pt = stable.mkShell {
+            class-pt = pkgs.mkShell {
                 buildInputs = [
-                    gitpkgs.packages.${system}.python313.class-pt
+                    gpkgs.python313.class-pt
                 ];
             };
-            getdist = stable.mkShell {
+            getdist = pkgs.mkShell {
                 buildInputs = [
-                    gitpkgs.packages.${system}.python313.getdist
+                    gpkgs.python313.getdist
                 ];
             };
-            e3nn-jax = stable.mkShell {
+            e3nn-jax = pkgs.mkShell {
                 buildInputs = [
-                    gitpkgs.packages.${system}.python313.e3nn-jax
+                    gpkgs.python313.e3nn-jax
                 ];
             };
-            diffrax = stable.mkShell {
+            diffrax = pkgs.mkShell {
                 buildInputs = [
-                    gitpkgs.packages.${system}.python313.diffrax
+                    gpkgs.python313.diffrax
                 ];
             };
         };
