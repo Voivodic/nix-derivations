@@ -7,6 +7,8 @@
 
     # Python dependencies
     jax,
+    jax-cuda12-plugin,
+    jax-cuda12-pjrt,
     setuptools_scm,
     attrs,
     sympy,
@@ -26,6 +28,8 @@ buildPythonPackage rec {
 
     buildInputs = [
         setuptools_scm
+        jax-cuda12-plugin
+        jax-cuda12-pjrt
     ];
 
     propagatedBuildInputs = [ 

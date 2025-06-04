@@ -24,6 +24,8 @@
                         # NN
                         e3nn-jax = pkgs.python312Packages.callPackage ./pkgs/nn/e3nn-jax {};
                         diffrax = pkgs.python312Packages.callPackage ./pkgs/nn/diffrax {};
+                        e3nn-jax-cuda = pkgs.python312Packages.callPackage ./pkgs/nn/e3nn-jax-cuda {};
+                        diffrax-cuda = pkgs.python312Packages.callPackage ./pkgs/nn/diffrax-cuda {};
 
                         # Utils
                         getdist = pkgs.python312Packages.callPackage ./pkgs/utils/getdist {};
@@ -36,6 +38,8 @@
                         # NN
                         e3nn-jax = pkgs.python313Packages.callPackage ./pkgs/nn/e3nn-jax {};
                         diffrax = pkgs.python313Packages.callPackage ./pkgs/nn/diffrax {};
+                        e3nn-jax-cuda = pkgs.python313Packages.callPackage ./pkgs/nn/e3nn-jax-cuda {};
+                        diffrax-cuda = pkgs.python313Packages.callPackage ./pkgs/nn/diffrax-cuda {};
 
                         # Utils
                         getdist = pkgs.python313Packages.callPackage ./pkgs/utils/getdist {};
