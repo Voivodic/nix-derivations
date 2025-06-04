@@ -28,12 +28,12 @@ buildPythonPackage rec {
 
     buildInputs = [
         setuptools_scm
-        jax-cuda12-plugin
-        jax-cuda12-pjrt
     ];
 
     propagatedBuildInputs = [ 
         jax
+        jax-cuda12-plugin
+        jax-cuda12-pjrt
         attrs
         sympy
     ]; 
