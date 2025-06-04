@@ -34,12 +34,12 @@ buildPythonPackage rec {
 
     buildInputs = [
         hatchling
-        jax-cuda12-plugin
-        jax-cuda12-pjrt
     ];
 
     propagatedBuildInputs = [ 
         jax 
+        jax-cuda12-plugin
+        jax-cuda12-pjrt
         jaxtyping
         equinox
         wadler-lindig
