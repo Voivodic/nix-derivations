@@ -42,6 +42,16 @@
                     gpkgs.python313.diffrax
                 ];
             };
+            e3nn-jax-cuda = pkgs.mkShell {
+                buildInputs = [
+                    gpkgs.python313.e3nn-jax-cuda
+                ];
+            };
+            diffrax-cuda = pkgs.mkShell {
+                buildInputs = [
+                    gpkgs.python313.diffrax-cuda
+                ];
+            };
         };
     };
 }
