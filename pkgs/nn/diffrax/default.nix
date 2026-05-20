@@ -1,5 +1,5 @@
 # Derivation for the installation of diffrax 
-{ 
+{
     # For building the derivation
     lib,
     buildPythonPackage,
@@ -10,14 +10,17 @@
 
     # Python dependencies
     jax,
+    jax-cuda12-plugin,
+    jax-cuda12-pjrt,
     jaxtyping,
     equinox,
     wadler-lindig,
     lineax,
     optimistix,
-    typing-extensions
+    typing-extensions,
+    cudaSupport ? false
 }: 
-# Derivation for diffrax 
+
 buildPythonPackage rec { 
     pname = "diffrax"; 
     version = "0.7.0"; 
@@ -42,7 +45,10 @@ buildPythonPackage rec {
         lineax
         optimistix 
         typing-extensions
-    ]; 
+    ] ++ lib.optionals cudaSupport [
+        jax-cuda12-plugin
+        jax-cuda12-pjrt
+    ];
 
     pythonImportsCheck = [ "diffrax" ];
 

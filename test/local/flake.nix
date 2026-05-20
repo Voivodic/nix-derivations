@@ -2,56 +2,35 @@
     description = "Test the derivations taken locally";
 
     inputs = {
-        nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
-        nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+        nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+        gitpkgs.url = "path:../../";
+        gitpkgs.inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    outputs = { self, nixpkgs-stable, nixpkgs-unstable, ... }: 
+    outputs = { self, nixpkgs, gitpkgs, ... }: 
     let
         # Define the system
         system = "x86_64-linux";
-        stable = import nixpkgs-stable { 
-            system = "${system}";
+        pkgs = import nixpkgs { 
+            inherit system;
             config.allowUnfree = true;
+            config.cudaSupport = true;
+            overlays = [ gitpkgs.overlays.default ];
         };
-        unstable = import nixpkgs-unstable { 
-            system = "${system}";
-            config.allowUnfree = true;
-        };
-
-        # Call the packages in the Repo
-        pyexshalos = unstable.python313Packages.callPackage ./../../pkgs/cosmo/pyexshalos {};
-        class-pt = unstable.python313Packages.callPackage ./../../pkgs/cosmo/class-pt {};
-        getdist = unstable.python313Packages.callPackage ./../../pkgs/utils/getdist {};
-        e3nn-jax = unstable.python313Packages.callPackage ./../../pkgs/nn/e3nn_jax {};
-        diffrax = unstable.python313Packages.callPackage ./../../pkgs/nn/diffrax { };
     in { 
-        devShells.${system} = {
-            pyexshalos = stable.mkShell {
+        devShells.${system} = let
+            mkShell = python: pkgName: pkgs.mkShell {
                 buildInputs = [
-                    pyexshalos
+                    (python.withPackages (ps: [ ps.${pkgName} ]))
                 ];
             };
-            class-pt = stable.mkShell {
-                buildInputs = [
-                    class-pt 
-                ];
-            };
-            getdist = stable.mkShell {
-                buildInputs = [
-                    getdist
-                ];
-            };
-            e3nn-jax = stable.mkShell {
-                buildInputs = [
-                    e3nn-jax
-                ];
-            };
-            diffrax = stable.mkShell {
-                buildInputs = [
-                    diffrax 
-                ];
-            };
+        in {
+            pyexshalos = mkShell pkgs.python313 "pyexshalos";
+            class-pt = mkShell pkgs.python313 "class-pt";
+            getdist = mkShell pkgs.python313 "getdist";
+            e3nn-jax = mkShell pkgs.python313 "e3nn-jax";
+            diffrax = mkShell pkgs.python313 "diffrax";
+            default = mkShell pkgs.python313 "diffrax";
         };
     };
 }

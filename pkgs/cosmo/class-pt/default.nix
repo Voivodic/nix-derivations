@@ -22,6 +22,7 @@
 buildPythonPackage rec { 
     pname = "class-pt"; 
     version = "2.0"; 
+    format = "setuptools"; 
 
     src = fetchFromGitHub{ 
         owner = "Michalychforever"; 

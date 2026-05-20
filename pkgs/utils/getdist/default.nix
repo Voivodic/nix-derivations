@@ -16,6 +16,7 @@
 buildPythonPackage rec { 
     pname = "getdist"; 
     version = "1.6.4"; 
+    format = "setuptools"; 
 
     src = fetchFromGitHub{ 
         owner = "cmbant"; 

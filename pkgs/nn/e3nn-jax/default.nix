@@ -7,9 +7,12 @@
 
     # Python dependencies
     jax,
-    setuptools_scm,
+    jax-cuda12-plugin,
+    jax-cuda12-pjrt,
+    setuptools-scm,
     attrs,
     sympy,
+    cudaSupport ? false
 }: 
 # Derivation for e3nn_jax 
 buildPythonPackage rec { 
@@ -25,14 +28,17 @@ buildPythonPackage rec {
     }; 
 
     buildInputs = [
-        setuptools_scm
+        setuptools-scm
     ];
 
     propagatedBuildInputs = [ 
         jax
         attrs
         sympy
-    ]; 
+    ] ++ lib.optionals cudaSupport [ 
+        jax-cuda12-plugin
+        jax-cuda12-pjrt
+    ];
 
     pythonImportsCheck = [ "e3nn_jax" ];
 
