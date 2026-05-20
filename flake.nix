@@ -41,34 +41,29 @@
                 pkgs = makePkgs false;
                 pkgs-cuda = makePkgs true;
 
-                # Helper to extract our packages from a pkgs instance
+                # Helper to create a clean, flat package set
                 extractPackages = p: {
-                    pyexshalos = p.python313Packages.pyexshalos;
-                    class-pt = p.python313Packages.class-pt;
-                    e3nn-jax = p.python313Packages.e3nn-jax;
-                    diffrax = p.python313Packages.diffrax;
-                    getdist = p.python313Packages.getdist;
+                    # Top-level access (defaults to Python 3.13)
+                    inherit (p.python313Packages) pyexshalos class-pt e3nn-jax diffrax getdist;
 
-                    # Expose multiple python versions if needed
+                    # Versioned access
                     python312 = {
-                        pyexshalos = p.python312Packages.pyexshalos;
-                        class-pt = p.python312Packages.class-pt;
-                        e3nn-jax = p.python312Packages.e3nn-jax;
-                        diffrax = p.python312Packages.diffrax;
-                        getdist = p.python312Packages.getdist;
+                        inherit (p.python312Packages) pyexshalos class-pt e3nn-jax diffrax getdist;
                     };
                     python313 = {
-                        pyexshalos = p.python313Packages.pyexshalos;
-                        class-pt = p.python313Packages.class-pt;
-                        e3nn-jax = p.python313Packages.e3nn-jax;
-                        diffrax = p.python313Packages.diffrax;
-                        getdist = p.python313Packages.getdist;
+                        inherit (p.python313Packages) pyexshalos class-pt e3nn-jax diffrax getdist;
                     };
                 };
             in {
+                # Standard flake packages
                 packages = (extractPackages pkgs) // {
                     cuda = extractPackages pkgs-cuda;
                 };
+
+                # Exposing the full pkgs with our overlay as legacyPackages
+                # This allows usage like: gitpkgs.legacyPackages.${system}.python313.diffrax
+                legacyPackages = pkgs;
+                legacyPackagesCUDA = pkgs-cuda;
             }
         ) // {
             overlays.default = localOverlay;
