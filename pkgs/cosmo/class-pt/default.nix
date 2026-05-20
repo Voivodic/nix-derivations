@@ -15,6 +15,8 @@
 
     # Python dependencies
     numpy,
+    scipy,
+    pip,
     cython,
     distutils,
 }: 
@@ -28,7 +30,7 @@ buildPythonPackage rec {
         owner = "Michalychforever"; 
         repo = "CLASS-PT"; 
         rev = "master";
-        sha256 = "sha256-AlgQ1xkZYXu5FCzNJNOJJQfhpVC9I+su+P/bG6LLIl4="; 
+        sha256 = "sha256-Ca0ZFEkyMG9kVxCRpSj5F7Y5MB8vi3gKoOojxd+8AqY="; 
     }; 
 
     nativeBuildInputs = [
@@ -37,12 +39,14 @@ buildPythonPackage rec {
     ];
 
     buildInputs = [ 
+        pip
         openblas
         distutils
     ]; 
 
     propagatedBuildInputs = [
         numpy
+        scipy
         cython
     ];
 
@@ -50,11 +54,7 @@ buildPythonPackage rec {
         sed -i '54c\OPENBLAS = ${openblas}/lib/libopenblas.so' Makefile
         sed -i '144c\all: class libclass.a' Makefile
         sed -i '189,197d' Makefile
-        sed -i '39c\include_dirs=[nm.get_include(), "../include", "${openblas}/include"],' python/setup.py
-        sed -i '42c\extra_link_args=["${openblas}/lib/libopenblas.so", "-lgomp"],' python/setup.py
         export HOME=$(mktemp -d)
-
-        sed -i '23c\ctypedef np.int32_t DTYPE_i' python/classy.pyx
     '';
 
     buildPhase = ''
