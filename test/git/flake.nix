@@ -3,7 +3,7 @@
 
     inputs = {
         nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-        gitpkgs.url = "path:../../";
+        gitpkgs.url = "github:Voivodic/nix-derivations/main";
         gitpkgs.inputs.nixpkgs.follows = "nixpkgs";
     };
 
