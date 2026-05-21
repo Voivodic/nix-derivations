@@ -6,7 +6,7 @@
     fetchFromGitHub,
 
     # Python dependencies
-    setuptools_scm,
+    setuptools-scm,
     matplotlib,
     scipy,
     attrs,
@@ -26,7 +26,7 @@ buildPythonPackage rec {
     }; 
 
     buildInputs = [
-        setuptools_scm
+        setuptools-scm
     ];
 
     propagatedBuildInputs = [ 
