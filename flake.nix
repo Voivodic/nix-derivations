@@ -42,13 +42,16 @@
                 pkgs-cuda = makePkgs true;
 
                 extractPackages = p: {
-                    inherit (p.python313Packages) pyexshalos class-pt e3nn-jax diffrax getdist;
+                    inherit (p.python314Packages) pyexshalos class-pt e3nn-jax diffrax getdist;
 
                     python312 = {
                         inherit (p.python312Packages) pyexshalos class-pt e3nn-jax diffrax getdist;
                     };
                     python313 = {
                         inherit (p.python313Packages) pyexshalos class-pt e3nn-jax diffrax getdist;
+                    };
+                    python314 = {
+                        inherit (p.python314Packages) pyexshalos class-pt e3nn-jax diffrax getdist;
                     };
                 };
 
@@ -75,34 +78,34 @@
                 hasGPU = "any('gpu' in str(d).lower() or 'cuda' in str(d).lower() for d in devs)";
 
                 # --- Non-GPU package tests ---
-                pyexshalos-test = mkTest "pyexshalos" (pkgs.python313.withPackages (ps: [ ps.pyexshalos ])) ''
+                pyexshalos-test = mkTest "pyexshalos" (pkgs.python314.withPackages (ps: [ ps.pyexshalos ])) ''
                     import pyexshalos
                     print('pyexshalos: OK')
                 '';
 
-                class-pt-test = mkTest "class-pt" (pkgs.python313.withPackages (ps: [ ps.class-pt ])) ''
+                class-pt-test = mkTest "class-pt" (pkgs.python314.withPackages (ps: [ ps.class-pt ])) ''
                     import classy
                     print('class-pt: OK')
                 '';
 
-                getdist-test = mkTest "getdist" (pkgs.python313.withPackages (ps: [ ps.getdist ])) ''
+                getdist-test = mkTest "getdist" (pkgs.python314.withPackages (ps: [ ps.getdist ])) ''
                     import getdist
                     print('getdist: OK')
                 '';
 
                 # --- GPU package CPU tests ---
-                e3nn-jax-cpu-test = mkTest "e3nn-jax" (pkgs.python313.withPackages (ps: [ ps.e3nn-jax ])) ''
+                e3nn-jax-cpu-test = mkTest "e3nn-jax" (pkgs.python314.withPackages (ps: [ ps.e3nn-jax ])) ''
                     import e3nn_jax
                     print('e3nn-jax: OK')
                 '';
 
-                diffrax-cpu-test = mkTest "diffrax" (pkgs.python313.withPackages (ps: [ ps.diffrax ])) ''
+                diffrax-cpu-test = mkTest "diffrax" (pkgs.python314.withPackages (ps: [ ps.diffrax ])) ''
                     import diffrax
                     print('diffrax: OK')
                 '';
 
                 # --- GPU package GPU tests (strict: fail if no GPU) ---
-                e3nn-jax-gpu-test = mkTest "e3nn-jax" (pkgs-cuda.python313.withPackages (ps: [ ps.e3nn-jax ])) ''
+                e3nn-jax-gpu-test = mkTest "e3nn-jax" (pkgs-cuda.python314.withPackages (ps: [ ps.e3nn-jax ])) ''
                     import e3nn_jax
                     print('e3nn-jax: import OK')
                     import jax
@@ -112,7 +115,7 @@
                     print('e3nn-jax: GPU OK')
                 '';
 
-                diffrax-gpu-test = mkTest "diffrax" (pkgs-cuda.python313.withPackages (ps: [ ps.diffrax ])) ''
+                diffrax-gpu-test = mkTest "diffrax" (pkgs-cuda.python314.withPackages (ps: [ ps.diffrax ])) ''
                     import diffrax
                     print('diffrax: import OK')
                     import jax
@@ -123,7 +126,7 @@
                 '';
 
                 # --- GPU package full tests (lenient: skip GPU if unavailable) ---
-                e3nn-jax-test = mkTest "e3nn-jax" (pkgs-cuda.python313.withPackages (ps: [ ps.e3nn-jax ])) ''
+                e3nn-jax-test = mkTest "e3nn-jax" (pkgs-cuda.python314.withPackages (ps: [ ps.e3nn-jax ])) ''
                     import e3nn_jax
                     print('e3nn-jax: import OK')
                     import jax
@@ -135,7 +138,7 @@
                         print('e3nn-jax: GPU not available (skipped)')
                 '';
 
-                diffrax-test = mkTest "diffrax" (pkgs-cuda.python313.withPackages (ps: [ ps.diffrax ])) ''
+                diffrax-test = mkTest "diffrax" (pkgs-cuda.python314.withPackages (ps: [ ps.diffrax ])) ''
                     import diffrax
                     print('diffrax: import OK')
                     import jax
@@ -148,7 +151,7 @@
                 '';
 
                 # --- Combined tests ---
-                test-cpu = mkTest "test" (pkgs.python313.withPackages (ps: [
+                test-cpu = mkTest "test" (pkgs.python314.withPackages (ps: [
                     ps.pyexshalos ps.class-pt ps.getdist ps.e3nn-jax ps.diffrax
                 ])) ''
                     import sys
@@ -164,7 +167,7 @@
                     print('All CPU tests passed')
                 '';
 
-                test-gpu = mkTest "test" (pkgs-cuda.python313.withPackages (ps: [
+                test-gpu = mkTest "test" (pkgs-cuda.python314.withPackages (ps: [
                     ps.e3nn-jax ps.diffrax
                 ])) ''
                     import sys
@@ -185,7 +188,7 @@
                     print('All GPU tests passed')
                 '';
 
-                test = mkTest "test" (pkgs-cuda.python313.withPackages (ps: [
+                test = mkTest "test" (pkgs-cuda.python314.withPackages (ps: [
                     ps.pyexshalos ps.class-pt ps.getdist ps.e3nn-jax ps.diffrax
                 ])) ''
                     import sys
