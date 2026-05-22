@@ -1,36 +1,29 @@
-# Derivation for the installation of pyExSHalos 
 { 
-    # For building the derivation
     stdenv,
     lib,
     fetchFromGitHub,
     buildPythonPackage,
 
-    # For building the libraries
     gcc,
     gnumake,
 
-    # Dependencies
     openblas,
 
-    # Python dependencies
     numpy,
-    scipy,
-    pip,
     cython,
-    distutils,
+    scipy,
 }: 
-# Derivation for pyexshalos 
+
 buildPythonPackage rec { 
     pname = "class-pt"; 
-    version = "2.0"; 
-    format = "setuptools"; 
+    version = "3.0"; 
+    format = "setuptools";
 
     src = fetchFromGitHub{ 
         owner = "Michalychforever"; 
         repo = "CLASS-PT"; 
-        rev = "master";
-        sha256 = "sha256-Ca0ZFEkyMG9kVxCRpSj5F7Y5MB8vi3gKoOojxd+8AqY="; 
+        rev = "09d5531a4ec61187d84f506e9fdaf7fdcc8c7718";
+        sha256 = "19h2pkgwa8zal057i2rg3wq3kdhpz4lab48haxj6yc1j94a1kb89"; 
     }; 
 
     nativeBuildInputs = [
@@ -39,33 +32,26 @@ buildPythonPackage rec {
     ];
 
     buildInputs = [ 
-        pip
         openblas
-        distutils
     ]; 
 
     propagatedBuildInputs = [
         numpy
-        scipy
         cython
+        scipy
     ];
 
-    configurePhase = ''
-        sed -i '54c\OPENBLAS = ${openblas}/lib/libopenblas.so' Makefile
-        sed -i '144c\all: class libclass.a' Makefile
-        sed -i '189,197d' Makefile
-        export HOME=$(mktemp -d)
-    '';
+    OPENBLAS_PATH = "${openblas}/lib";
 
     buildPhase = ''
         make clean
-        make OPENBLAS="${openblas}/lib/libopenblas.so"
+        make libclass.a
     '';
 
     installPhase = ''
         cd python
         mkdir -p dist
-        python setup.py install --prefix=$out 
+        OPENBLAS_PATH="${openblas}/lib" python setup.py install --prefix=$out 
     '';
 
     pythonImportsCheck = [ "classy" ];
